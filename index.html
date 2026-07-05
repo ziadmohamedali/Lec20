@@ -1,1 +1,57 @@
+<section class="admin-wishlist-container">
+  
+  <div class="management-control-panel">
+    <div class="panel-intro">
+      <span class="panel-tag">Studio Inventory Engine</span>
+      <h3>Wishlist Master Control</h3>
+    </div>
+    
+    <div class="action-button-group">
+      <button id="btnShowPanel" class="ctrl-btn btn-show">Toggle View</button>
+      <button id="btnResetAll" class="ctrl-btn btn-reset">Reset Workspace</button>
+    </div>
+  </div>
 
+  <div class="workspace-layout">
+    
+    <div class="form-card-wrapper">
+      <h4>Add New Collection Item</h4>
+      <form id="productAdditionForm" novalidate>
+        <div class="field-group">
+          <label for="inputProdName">Ceramic Piece Name</label>
+          <input type="text" id="inputProdName" placeholder="e.g., Cosmic Crackle Plate" autocomplete="off" required>
+        </div>
+        <div class="field-group">
+          <label for="inputProdPrice">Retail Price ($)</label>
+          <input type="number" id="inputProdPrice" placeholder="49" min="1" required>
+        </div>
+        <div class="field-group">
+          <label for="selectProdImg">Visual Specimen</label>
+          <select id="selectProdImg">
+            <option value="product6.jpg">Sky Blue Finish</option>
+            <option value="product12.jpg">Cosmic Crackle Ring</option>
+            <option value="image_0ede06.jpg">Bespoke Mosaic Kintsugi</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-action-btn">Commit Item to Array</button>
+      </form>
+    </div>
+
+    <div class="display-stream-wrapper" id="displayWrapper">
+      <div class="live-metrics-bar">
+        <div class="metric-node">
+          <span class="m-label">Stored Items</span>
+          <span class="m-val" id="metricCount">0</span>
+        </div>
+        <div class="metric-node">
+          <span class="m-label">Cumulative Valuation</span>
+          <span class="m-val" id="metricTotal">$0.00</span>
+        </div>
+      </div>
+
+      <div class="wishlist-dynamic-grid" id="wishlistGrid">
+        </div>
+    </div>
+
+  </div>
+          </section>
