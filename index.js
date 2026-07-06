@@ -1,215 +1,137 @@
-.admin-wishlist-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    font-family: "Inter", sans-serif;
-    color: #3A3845;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  
+  let products = ["Sky Blue Dinner Plate", "Cosmic Crackle Plate", "Bespoke Mosaic Kintsugi"];
+  let prices = [49, 59, 180];
+  let images = ["./images/Discover-img-2.jpg", "./images/product12.jpg", "./images/Discover-img-4.jpg"];
 
-/* ========================================================
-   1. TOP OPERATIONAL ACTION CONTROL BAR
-   ======================================================== */
-.management-control-panel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(202, 201, 207, 0.4);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
-}
+  const btnShowPanel = document.getElementById("btnShowPanel");
+  const btnResetAll = document.getElementById("btnResetAll");
+  const displayWrapper = document.getElementById("displayWrapper");
+  const productForm = document.getElementById("productAdditionForm");
+  const wishlistGrid = document.getElementById("wishlistGrid");
+  
+  const metricCount = document.getElementById("metricCount");
+  const metricTotal = document.getElementById("metricTotal");
 
-.panel-tag {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #807F86;
-}
+  const syncAndRenderDOM = () => {
+    wishlistGrid.innerHTML = "";
+    let subtotalCalculator = 0;
+    metricCount.textContent = products.length;
 
-.management-control-panel h3 {
-    font-family: "EB Garamond", serif;
-    font-size: 32px;
-    margin: 4px 0 0 0;
-}
+    if (products.length === 0) {
+        wishlistGrid.innerHTML = `<div style="text-align:center; padding:40px; color:#807F86; font-size:13px;">No items logged in workspace.</div>`;
+        metricTotal.textContent = "$0.00";
+        return;
+    }
 
-.action-button-group {
-    display: flex;
-    gap: 12px;
-}
+    for (let i = 0; i < products.length; i++) {
+        subtotalCalculator += prices[i];
 
-.ctrl-btn {
-    border: none;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.1s ease;
-}
+        const rowCard = document.createElement("div");
+        rowCard.className = "wishlist-item-row";
+        rowCard.setAttribute("data-index", i);
 
-.btn-show { background: #3A3845; color: #FFFFFF; }
-.btn-show:hover { background: #24232C; }
-.btn-reset { background: #B22222; color: #FFFFFF; }
-.btn-reset:hover { background: #901A1A; }
-.ctrl-btn:active { transform: scale(0.97); }
+        rowCard.innerHTML = `
+            <img src="${images[i]}" alt="Ceramic Specimen">
+            <div class="row-info-block" id="infoBlock-${i}">
+                <h5>${products[i]}</h5>
+                <span>$${prices[i]}.00</span>
+            </div>
+            <div class="row-actions-block" id="actionsBlock-${i}">
+                <button class="row-btn r-edit" onclick="enterInlineEditMode(${i})">Update</button>
+                <button class="row-btn r-del" onclick="deleteItemRow(${i})">Delete</button>
+            </div>
+        `;
+        wishlistGrid.appendChild(rowCard);
+    }
 
-/* ========================================================
-   2. CORE WORKSPACE GRID BREAKDOWN
-   ======================================================== */
-.workspace-layout {
-    display: flex;
-    gap: 40px;
-}
+    metricTotal.textContent = `$${subtotalCalculator.toFixed(2)}`;
+  };
 
-.form-card-wrapper {
-    width: 340px;
-    background: #FFFFFF;
-    border: 1px solid rgba(202, 201, 207, 0.4);
-    border-radius: 6px;
-    padding: 24px;
-    height: fit-content;
-}
+  productForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    const nameInput = document.getElementById("inputProdName");
+    const priceInput = document.getElementById("inputProdPrice");
+    const imgSelect = document.getElementById("selectProdImg");
 
-.form-card-wrapper h4, .display-stream-wrapper h4 {
-    font-family: "EB Garamond", serif;
-    font-size: 20px;
-    margin: 0 0 20px 0;
-}
+    if (nameInput.value.trim() === "" || priceInput.value <= 0) {
+        alert("Please enter valid parameters.");
+        return;
+    }
 
-.field-group {
-    margin-bottom: 16px;
-}
+    products.push(nameInput.value.trim());
+    prices.push(parseFloat(priceInput.value));
+    images.push(imgSelect.value);
 
-.field-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 6px;
-}
+    nameInput.value = "";
+    priceInput.value = "";
+    
+    syncAndRenderDOM();
+  });
 
-.field-group input, .field-group select {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #C2C1C7;
-    border-radius: 4px;
-    font-size: 13px;
-    background: #FFFFFF;
-    box-sizing: border-box;
-}
+  window.enterInlineEditMode = (index) => {
+    const infoBlock = document.getElementById(`infoBlock-${index}`);
+    const actionsBlock = document.getElementById(`actionsBlock-${index}`);
 
-.field-group input:focus {
-    outline: none;
-    border-color: #3A3845;
-}
+    infoBlock.innerHTML = `
+        <input type="text" id="editName-${index}" class="inline-edit-input" value="${products[index]}">
+        <input type="number" id="editPrice-${index}" class="inline-edit-input" value="${prices[index]}" min="1">
+    `;
 
-.submit-action-btn {
-    width: 100%;
-    background: #4F7942;
-    color: #FFFFFF;
-    border: none;
-    padding: 12px;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 13px;
-    cursor: pointer;
-    margin-top: 8px;
-}
+    actionsBlock.innerHTML = `
+        <button class="row-btn r-save" onclick="commitInlineChanges(${index})">Save</button>
+        <button class="row-btn r-edit" onclick="cancelOperationalSync()">Cancel</button>
+    `;
+  };
 
-/* ========================================================
-   3. RIGHT SIDE DYNAMIC VIEW STREAM & INLINE EDIT CARDS
-   ======================================================== */
-.display-stream-wrapper {
-    flex: 1;
-    transition: opacity 0.3s ease;
-}
+  window.commitInlineChanges = (index) => {
+    const updatedName = document.getElementById(`editName-${index}`).value.trim();
+    const updatedPrice = parseFloat(document.getElementById(`editPrice-${index}`).value);
 
-.live-metrics-bar {
-    display: flex;
-    gap: 20px;
-    background: #FAF9F7;
-    border: 1px solid rgba(202, 201, 207, 0.4);
-    padding: 16px 24px;
-    border-radius: 6px;
-    margin-bottom: 24px;
-}
+    if (updatedName === "" || isNaN(updatedPrice) || updatedPrice <= 0) {
+        alert("Invalid input values.");
+        return;
+    }
 
-.metric-node {
-    display: flex;
-    flex-direction: column;
-}
+    products[index] = updatedName;
+    prices[index] = updatedPrice;
 
-.m-label { font-size: 11px; text-transform: uppercase; color: #807F86; }
-.m-val { font-size: 18px; font-weight: 600; margin-top: 2px; }
+    syncAndRenderDOM();
+  };
 
-/* Dynamic Generated Row Cards Layout */
-.wishlist-dynamic-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+  window.cancelOperationalSync = () => {
+    syncAndRenderDOM();
+  };
 
-.wishlist-item-row {
-    display: flex;
-    align-items: center;
-    background: #FFFFFF;
-    border: 1px solid rgba(202, 201, 207, 0.4);
-    border-radius: 6px;
-    padding: 16px;
-    gap: 20px;
-    animation: rowReveal 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
+  window.deleteItemRow = (index) => {
+    products.splice(index, 1);
+    prices.splice(index, 1);
+    images.splice(index, 1);
 
-@keyframes rowReveal {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    syncAndRenderDOM();
+  };
 
-.wishlist-item-row img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 4px;
-    background: #FAF9F7;
-}
+  btnResetAll.addEventListener("click", () => {
+    if (confirm("Are you sure you want to clear the workspace?")) {
+        products = [];
+        prices = [];
+        images = [];
+        syncAndRenderDOM();
+    }
+  });
 
-.row-info-block {
-    flex: 1;
-}
+  btnShowPanel.addEventListener("click", () => {
+    if (displayWrapper.style.opacity === "0") {
+        displayWrapper.style.opacity = "1";
+        displayWrapper.style.pointerEvents = "auto";
+        btnShowPanel.textContent = "Hide Panel View";
+    } else {
+        displayWrapper.style.opacity = "0";
+        displayWrapper.style.pointerEvents = "none";
+        btnShowPanel.textContent = "Show Panel View";
+    }
+  });
 
-.row-info-block h5 { font-size: 15px; margin: 0 0 4px 0; }
-.row-info-block span { font-size: 13px; color: #807F86; font-weight: 500; }
-
-/* Inline Inputs adjustments when edit class overrides row items */
-.inline-edit-input {
-    padding: 6px 10px;
-    font-size: 13px;
-    border: 1px solid #3A3845;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    display: block;
-}
-
-.row-actions-block {
-    display: flex;
-    gap: 8px;
-}
-
-/* Micro Inline Operation buttons */
-.row-btn {
-    border: none;
-    padding: 8px 14px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.r-edit { background: #FAF9F7; color: #3A3845; border: 1px solid #E5E4E6; }
-.r-edit:hover { background: #E5E4E6; }
-.r-del { background: rgba(178, 34, 34, 0.08); color: #B22222; }
-.r-del:hover { background: rgba(178, 34, 34, 0.15); }
-.r-save { background: #3A3845; color: #FFFFFF; }
-
-@media (max-width: 992px) {
-    .workspace-layout { flex-direction: column; }
-    .form-card-wrapper { width: 100%; }
-}
+  syncAndRenderDOM();
+});
