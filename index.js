@@ -1,3 +1,22 @@
+// the header sidebar section
+
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.querySelector(".hamburger");
+  const offScreenMenu = document.querySelector(".off-screen-menu");
+
+  if (hamburger && offScreenMenu) {
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      offScreenMenu.classList.toggle("active");
+    });
+  }
+});
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   
   let products = ["Sky Blue Dinner Plate", "Cosmic Crackle Plate", "Bespoke Mosaic Kintsugi"];
