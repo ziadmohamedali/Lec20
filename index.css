@@ -1,3 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ====================================
+   Global CSS & Header
+==================================== */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+
+header {
+    width: 100%;
+    padding: 22px 165px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid rgba(202, 201, 207, 1);
+}
+
+.header-content {
+    align-items: center;
+    font-family: "Inter", sans-serif;
+}
+
+.logo img {
+    display: block;
+    height: auto;
+}
+
+.desktop-nav {
+    display: block;
+}
+
+.desktop-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.desktop-nav li {
+    display: inline-block;
+    margin-right: 60px;
+}
+
+.desktop-nav li:last-child {
+    margin-right: 0;
+}
+
+.desktop-nav a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.desktop-nav a:hover {
+    color: #3A3845;
+}
+
+.header-icons img {
+    height: 20px;
+    margin-left: 24px;
+}
+
+.hamburger {
+    position: relative;
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #3A3845;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.off-screen-menu {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 250%;
+    max-width: 320px;
+    height: 100vh;
+    padding: 90px 40px;
+    background-color: #FAF9F7;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out;
+}
+
+.off-screen-menu.active {
+    left: 0;
+}
+
+.off-screen-menu ul {
+    width: 100%;
+    list-style: none;
+}
+
+.off-screen-menu li {
+    width: 100%;
+    margin-bottom: 28px;
+    /* border-bottom: 1px solid rgba(202, 201, 207, 1); */
+}
+.off-screen-menu a:hover{
+    background: #8f8f8f;
+}
+
+.off-screen-menu a {
+    font-family: "Inter", sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 10px;
+    letter-spacing: 6%;
+    color: #3A3845;
+    text-decoration: none;
+}
+
+.hamburger.active span {
+    background-color: #3A3845;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 991px) {
+    header {
+        padding: 20px 48px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .desktop-nav {
+        display: none !important;
+    }
+
+    .nav-icon-hide {
+        display: none !important;
+    }
+
+    .header-icons img {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    .off-screen-menu, 
+    .menu-overlay {
+        display: none !important;
+    }
+}
+
+/* ========================================================
+   1. LAYOUT STRUCTURAL MARGINS & CORE GLOBAL RULES
+======================================================== */
 .admin-wishlist-container {
     max-width: 1200px;
     margin: 40px auto;
@@ -6,9 +209,6 @@
     color: #3A3845;
 }
 
-/* ========================================================
-   1. TOP OPERATIONAL ACTION CONTROL BAR
-   ======================================================== */
 .management-control-panel {
     display: flex;
     justify-content: space-between;
@@ -46,15 +246,28 @@
     transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.btn-show { background: #3A3845; color: #FFFFFF; }
-.btn-show:hover { background: #24232C; }
-.btn-reset { background: #B22222; color: #FFFFFF; }
-.btn-reset:hover { background: #901A1A; }
-.ctrl-btn:active { transform: scale(0.97); }
+.btn-show {
+    background: #3A3845;
+    color: #FFFFFF;
+}
 
-/* ========================================================
-   2. CORE WORKSPACE GRID BREAKDOWN
-   ======================================================== */
+.btn-show:hover {
+    background: #24232C;
+}
+
+.btn-reset {
+    background: #B22222;
+    color: #FFFFFF;
+}
+
+.btn-reset:hover {
+    background: #901A1A;
+}
+
+.ctrl-btn:active {
+    transform: scale(0.97);
+}
+
 .workspace-layout {
     display: flex;
     gap: 40px;
@@ -69,7 +282,7 @@
     height: fit-content;
 }
 
-.form-card-wrapper h4, .display-stream-wrapper h4 {
+.form-card-wrapper h4 {
     font-family: "EB Garamond", serif;
     font-size: 20px;
     margin: 0 0 20px 0;
@@ -114,9 +327,6 @@
     margin-top: 8px;
 }
 
-/* ========================================================
-   3. RIGHT SIDE DYNAMIC VIEW STREAM & INLINE EDIT CARDS
-   ======================================================== */
 .display-stream-wrapper {
     flex: 1;
     transition: opacity 0.3s ease;
@@ -137,10 +347,18 @@
     flex-direction: column;
 }
 
-.m-label { font-size: 11px; text-transform: uppercase; color: #807F86; }
-.m-val { font-size: 18px; font-weight: 600; margin-top: 2px; }
+.m-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #807F86;
+}
 
-/* Dynamic Generated Row Cards Layout */
+.m-val {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
 .wishlist-dynamic-grid {
     display: flex;
     flex-direction: column;
@@ -175,10 +393,17 @@
     flex: 1;
 }
 
-.row-info-block h5 { font-size: 15px; margin: 0 0 4px 0; }
-.row-info-block span { font-size: 13px; color: #807F86; font-weight: 500; }
+.row-info-block h5 {
+    font-size: 15px;
+    margin: 0 0 4px 0;
+}
 
-/* Inline Inputs adjustments when edit class overrides row items */
+.row-info-block span {
+    font-size: 13px;
+    color: #807F86;
+    font-weight: 500;
+}
+
 .inline-edit-input {
     padding: 6px 10px;
     font-size: 13px;
@@ -186,6 +411,7 @@
     border-radius: 4px;
     margin-bottom: 4px;
     display: block;
+    width: 90%;
 }
 
 .row-actions-block {
@@ -193,7 +419,6 @@
     gap: 8px;
 }
 
-/* Micro Inline Operation buttons */
 .row-btn {
     border: none;
     padding: 8px 14px;
@@ -203,13 +428,338 @@
     border-radius: 4px;
     cursor: pointer;
 }
-.r-edit { background: #FAF9F7; color: #3A3845; border: 1px solid #E5E4E6; }
-.r-edit:hover { background: #E5E4E6; }
-.r-del { background: rgba(178, 34, 34, 0.08); color: #B22222; }
-.r-del:hover { background: rgba(178, 34, 34, 0.15); }
-.r-save { background: #3A3845; color: #FFFFFF; }
+
+.r-edit {
+    background: #FAF9F7;
+    color: #3A3845;
+    border: 1px solid #E5E4E6;
+}
+
+.r-edit:hover {
+    background: #E5E4E6;
+}
+
+.r-del {
+    background: rgba(178, 34, 34, 0.08);
+    color: #B22222;
+}
+
+.r-del:hover {
+    background: rgba(178, 34, 34, 0.15);
+}
+
+.r-save {
+    background: #3A3845;
+    color: #FFFFFF;
+}
 
 @media (max-width: 992px) {
     .workspace-layout { flex-direction: column; }
     .form-card-wrapper { width: 100%; }
+}
+
+
+/* ============
+     footer
+=============== */
+.footer{
+    background:#3A3845;
+    color:#fff;
+}
+
+.footer-brand{
+    border-right:1px solid rgba(255,255,255,.15);
+}
+
+.footer-brand img{
+    max-width:180px;
+}
+
+.footer-text{
+    max-width:320px;
+    line-height:1.8;
+    color:rgba(255,255,255,.75);
+    margin-bottom:2rem;
+}
+
+.footer-btn{
+    display:inline-flex;
+    align-items:center;
+    padding:.9rem 1.6rem;
+    border:1px solid rgba(255,255,255,.35);
+    color:#fff;
+    text-decoration:none;
+    font-size:.875rem;
+    font-weight:600;
+    letter-spacing:1px;
+    transition:.3s;
+}
+
+.footer-btn:hover{
+    background:#fff;
+    color:#3A3845;
+}
+
+.footer h4{
+    font-size:.9rem;
+    font-weight:700;
+    letter-spacing:2px;
+    margin-bottom:1.5rem;
+}
+
+.footer ul{
+    margin:0;
+    padding:0;
+}
+
+.footer li{
+    margin-bottom:.9rem;
+}
+
+.footer a{
+    color:rgba(255,255,255,.75);
+    text-decoration:none;
+    transition:.25s;
+}
+
+.footer a:hover{
+    color:#fff;
+}
+
+.footer-divider{
+    border-color:rgba(255,255,255,.15);
+}
+
+.footer-bottom{
+    font-size:.9rem;
+}
+
+.footer-bottom a{
+    color:rgba(255,255,255,.7);
+}
+
+.footer-bottom a:hover{
+    color:#fff;
+}
+
+@media (max-width:991.98px){
+
+    .footer-brand{
+        border-right:none;
+        border-bottom:1px solid rgba(255,255,255,.15);
+        padding-bottom:2rem;
+    }
+
+}
+
+
+
+
+.layout {
+    padding: 30px 165px;
+}
+
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+/* Responsive breakpoint for Tablet screens (≤ 992px)  */
+@media (max-width: 992px) {
+
+    /* Layout */
+    .layout {
+        padding: 0 60px;
+    }
+
+    /* Header */
+    header {
+        padding: 20px 60px;
+    }
+
+    nav li {
+        margin-right: 25px;
+    }
+
+    /* Hero */
+    .hero-left {
+        left: 60px;
+        padding: 80px 40px;
+    }
+
+    .hero-left h1 {
+        font-size: 30px;
+    }
+
+    .hero-left p {
+        font-size: 14px;
+    }
+
+    /* Categories */
+    .category-item img {
+        height: 220px;
+    }
+
+    /* Products */
+    .products-grid,
+    .products-grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Offer & History */
+    .offer-content h2 {
+        font-size: 32px;
+    }
+
+    /* Newsletter */
+    .newsletter-input {
+        width: 300px;
+    }
+
+    /* Footer */
+    .footer-top {
+        flex-direction: column;
+        gap: 50px;
+        padding: 0 60px 60px;
+    }
+
+    .footer-brand {
+        width: 100%;
+        border-right: none;
+        padding-right: 0;
+    }
+
+    .footer-links {
+        width: 100%;
+        padding-left: 0;
+        gap: 50px;
+        flex-wrap: wrap;
+    }
+
+    .footer-bottom {
+        margin: 0 60px;
+    }
+}
+
+
+/* Responsive breakpoint for Mobile screens (≤ 768px)  */
+@media (max-width: 768px) {
+
+    /* Layout */
+    .layout {
+        padding: 0 0px;
+    }
+
+    /* Hero */
+    .hero {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-right img {
+    width: 100%;
+    height: 398px;
+    object-fit: cover;
+    }
+
+    .hero-left {
+        position: static !important;
+        width: 100%;
+        padding: 50px 25px;
+        height: 354px;
+    }
+
+    .hero-left h1 {
+        font-size: 28px;
+    }
+
+    .hero-left img {
+        margin-bottom: 20px;
+        width: 50px;
+    }
+
+
+    /* Categories */
+    .category-item img {
+        height: 180px;
+    }
+
+    .category-item h6 {
+        font-size: 14px;
+    }
+
+    /* Offer Section */
+    .offer-content {
+        min-height: auto;
+        padding: 40px 20px;
+    }
+
+    .offer-content h2 {
+        font-size: 26px;
+    }
+
+    .offer-image {
+        height: auto;
+    }
+
+    /* best-sellers Products */
+    .products-grid,
+    .products-grid-2 {
+        justify-content: space-between;
+        gap: 10px;
+        margin: 0 20px;
+    }
+
+    .best-sellers {
+        padding: 0px 0px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .product-card {
+        padding-top: 20px;
+    }
+    /* Blog Cards */
+    .blog-section h3 {
+        font-size: 16px;
+    }
+
+    /* Newsletter */
+    .newsletter-input {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    /* Footer */
+    .footer {
+        padding-top: 50px;
+    }
+
+    .footer-top {
+        padding: 0 20px 40px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .footer-column h4 {
+        margin-bottom: 15px;
+    }
+
+    .footer-column a {
+        margin-bottom: 10px;
+    }
+
+    .footer-bottom {
+        margin: 0 20px;
+        font-size: 14px;
+    }
+
+    .footer-bottom p {
+        line-height: 1.8;
+    }
 }
